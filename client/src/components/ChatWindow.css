@@ -50,8 +50,6 @@
     background-color: blueviolet;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-
-
 } 
 .chatPane .footer input{
     width: 90%;
@@ -71,3 +69,81 @@
     border: none;
     background-color: #adab76;
 } 
+
+.messages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.messageContainer#Other .messageBox {
+    /* height: auto; */
+    /* padding-bottom: 5px; */
+    /* padding-top: 5px; */
+    padding-right: 5px;
+    width: 45%;
+    background-color: #5db5f8;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+    background-color: #67685d;
+
+  }
+  
+  .messageContainer#You .messageBox {
+    /* height: auto; */
+    /* padding-bottom: 5px; */
+    /* padding-top: 5px; */
+    padding-right: 5px;
+    width: 45%;
+    background-color: #666b3a;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+  }
+  
+  .messageBox p {
+    padding-left: .3rem;
+    width: 95%;
+    overflow-wrap: break-word;
+  }
+  
+  .messageContainer#You{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    /* padding-right: 10px; */
+    /* background-color: tomato; */
+    width: 95%;
+  }
+  
+  .messageContainer#Other{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+    /* background-color: yellowgreen; */
+    width: 95%;
+  }
+  
+  .messageContainer#Other h3 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    padding-right: 5px;
+  }
+  
+  .messageContainer#You h3 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    padding-left: 5px;
+  }

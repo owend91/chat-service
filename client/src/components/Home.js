@@ -27,6 +27,7 @@ function Home(props) {
                 ) : (
                     <ChatWindow 
                         currentRoom={props.currentRoom}
+                        user={props.user}
                     />
                 )}
             </div>
