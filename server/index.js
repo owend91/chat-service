@@ -30,7 +30,7 @@ const User = new mongoose.model("User", userSchema);
 const app = express();
 const frontEndOrigin= process.env.FRONT_END_ORIGIN;
 
-const expressPort = process.env.EXPRESS_PORT || 3001;
+const expressPort = process.env.PORT || 3001;
 // const socketPort = process.env.SOCKET_PORT || 3001;
 
 
