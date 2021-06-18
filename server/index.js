@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const mongoose = require("mongoose");
 const socket = require('socket.io')
+const bcrypt = require('bcrypt')
 const chatRooms={}
 
 
@@ -45,16 +46,18 @@ app.route('/login')
         console.log(foundUser)
         if(!err){
             if(foundUser){
-                if(foundUser.password === password){
-                    const returnedUser = {
-                        username: foundUser.username,
-                        chatRooms: foundUser.chatRooms
+                bcrypt.compare(password, foundUser.password).then( match => {
+                    if(match){
+                        const returnedUser = {
+                            username: foundUser.username,
+                            chatRooms: foundUser.chatRooms
+                        }
+                        console.log('returned user: ', returnedUser)
+                        res.status(200).send({'success': 'logged in', 'user': returnedUser});
+                    } else {
+                        res.status(200).send({'unsuccessful': 'Password Incorrect'});
                     }
-                    console.log('returned user: ', returnedUser)
-                    res.status(200).send({'success': 'logged in', 'user': returnedUser});
-                } else {
-                    res.status(200).send({'unsuccessful': 'Password Incorrect'});
-                }
+                });
             } else {
                 res.status(200).send({'unsuccessful': 'User Not Found'});
             }
@@ -93,26 +96,27 @@ app.route('/register')
             res.status(200).send({'error': 'User exists'})
         } else {
             console.log('user does not exist')
-
-            const newUser = new User(
-                {
-                    username: username,
-                    password: password,
-                    chatRooms: []
-                }
-            )
-            newUser.save(err => {
-                if(!err){
-                    console.log('user saved')
-                    const returnedUser = {
+            bcrypt.hash(password, 10).then( hash => {
+                const newUser = new User(
+                    {
                         username: username,
+                        password: hash,
                         chatRooms: []
                     }
-                    res.status(201).send({'success' : 'user saved!', 'user': returnedUser})
-                } else {
-                    res.status(404).send({'error': 'error saving new user'})
-                }
-            })
+                )
+                newUser.save(err => {
+                    if(!err){
+                        console.log('user saved')
+                        const returnedUser = {
+                            username: username,
+                            chatRooms: []
+                        }
+                        res.status(201).send({'success' : 'user saved!', 'user': returnedUser})
+                    } else {
+                        res.status(404).send({'error': 'error saving new user'})
+                    }
+                });
+            });
         }
     });
 });
