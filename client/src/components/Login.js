@@ -8,7 +8,8 @@ function Login(props) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [userExists, setUserExists] = useState(false)
+    const [formError, setformError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
 
     function handleFormSwitch() {
         setIsRegistering(!isRegistering);
@@ -28,7 +29,8 @@ function Login(props) {
     }
 
     function handleRegisterClick(){
-        setUserExists(false)
+        setformError(false)
+        setErrorMsg('')
         if(password !== confirmPassword){
             alert("Passwords must match")
         } else {
@@ -40,7 +42,8 @@ function Login(props) {
                 .then( (response) =>{
                     console.log(response)
                     if(response.status === 200){
-                        setUserExists(true);
+                        setformError(true);
+                        setErrorMsg('Username already exists')
                     } else {
                         props.setUser(response.data.user)
                         props.setLoggedIn(true);
@@ -54,6 +57,8 @@ function Login(props) {
     }
 
     function handleLoginClick(){
+        setformError(false)
+        setErrorMsg('')
         const body = {
             username: username,
             password: password
@@ -61,9 +66,14 @@ function Login(props) {
         console.log('body: ', body)
         Account.login(body)
         .then( (response) =>{
-            console.log('login response: ', response.data.user)
-            props.setUser(response.data.user)
-            props.setLoggedIn(true);
+            console.log('login response: ', response.data)
+            if(response.data.user){
+                props.setUser(response.data.user)
+                props.setLoggedIn(true);
+            } else {
+                setformError(true);
+                setErrorMsg(response.data['unsuccessful'])
+            }
 
 
         });
@@ -76,7 +86,7 @@ function Login(props) {
             </div>
             <div className="body">
                 <div className='message'>
-                    {userExists && <p className='errorMessage'>Username already exists</p>}
+                    {formError && <p className='errorMessage'>{errorMsg}</p>}
                 </div>
                 <div className="inputs">
                     <input type='text' placeholder='username' onChange={handleUsernameChange} value={username}/>

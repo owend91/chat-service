@@ -44,12 +44,20 @@ app.route('/login')
     User.findOne({username: username}, (err, foundUser) => {
         console.log(foundUser)
         if(!err){
-            const returnedUser = {
-                username: foundUser.username,
-                chatRooms: foundUser.chatRooms
+            if(foundUser){
+                if(foundUser.password === password){
+                    const returnedUser = {
+                        username: foundUser.username,
+                        chatRooms: foundUser.chatRooms
+                    }
+                    console.log('returned user: ', returnedUser)
+                    res.status(200).send({'success': 'logged in', 'user': returnedUser});
+                } else {
+                    res.status(200).send({'unsuccessful': 'Password Incorrect'});
+                }
+            } else {
+                res.status(200).send({'unsuccessful': 'User Not Found'});
             }
-            console.log('returned user: ', returnedUser)
-            res.status(200).send({'success': 'logged in', 'user': returnedUser});
         }
     })  
 });
