@@ -46,7 +46,7 @@ app.route('/login')
     const username = req.body.username;
     const password = req.body.password;
     User.findOne({username: username}, (err, foundUser) => {
-        console.log(foundUser)
+        // console.log(foundUser)
         if(!err){
             if(foundUser){
                 bcrypt.compare(password, foundUser.password).then( match => {
@@ -59,11 +59,11 @@ app.route('/login')
                             username: foundUser.username,
                             id: foundUser._id
                         });
-                        console.log('login token: ', accessToken)
+                        // console.log('login token: ', accessToken)
                         res.cookie('access-token', accessToken, {
                             maxAge: 60*60*24*30*1000
                         })
-                        console.log('returned user: ', returnedUser)
+                        // console.log('returned user: ', returnedUser)
                         res.status(200).send({'success': 'logged in', 'user': returnedUser});
                     } else {
                         res.status(200).send({'unsuccessful': 'Password Incorrect'});
@@ -114,10 +114,10 @@ app.route('/joinroom', validateToken)
 // });
 
 app.get('/getuser', validateToken, (req,res) => {
-    console.log('i am in get rooms')
+    // console.log('i am in get rooms')
     if(req.authenticated){
         const username = req.username;
-        console.log('getrooms: ', username)
+        // console.log('getrooms: ', username)
     
         User.findOne({username: username}, (err, foundUser) => {
             if(!err){
@@ -143,10 +143,10 @@ app.route('/register')
             res.status(404).send({'error': 'Error seeing if user exists'})
         }
         if(foundUser){
-            console.log('user exists')
+            // console.log('user exists')
             res.status(200).send({'error': 'User exists'})
         } else {
-            console.log('user does not exist')
+            // console.log('user does not exist')
             bcrypt.hash(password, 10).then( hash => {
                 const newUser = new User(
                     {
@@ -157,7 +157,7 @@ app.route('/register')
                 )
                 newUser.save(err => {
                     if(!err){
-                        console.log('user saved')
+                        // console.log('user saved')
                         const returnedUser = {
                             username: username,
                             chatRooms: []
@@ -185,16 +185,16 @@ io = socket(server, {
   });
 
 io.on('connection', socket => {
-    console.log('connected: ', socket.id)
+    // console.log('connected: ', socket.id)
 
     socket.on('join_room', (data) => {
         socket.join(data)
-        console.log(socket.id + " now in rooms ", socket.rooms);
+        // console.log(socket.id + " now in rooms ", socket.rooms);
         ChatRoom.findOne({roomName: data}, (err, chats) => {
             if(err){
                 console.log('error: ', err);
             } else {
-                console.log('chats: ', chats);
+                // console.log('chats: ', chats);
                 if(chats){
                     chatRooms[data] = chats;
                 } else {
@@ -204,16 +204,16 @@ io.on('connection', socket => {
                 }
                 
                 io.to(data).emit("populate_chats", chatRooms[data].chats)
-                console.log(socket.id + " now in rooms ", socket.rooms);
+                // console.log(socket.id + " now in rooms ", socket.rooms);
 
             
-                console.log('chatroom data: ', chatRooms[data].chats);
+                // console.log('chatroom data: ', chatRooms[data].chats);
             }
         })
     });
 
     socket.on('send_message',(data) => {
-        console.log(data)
+        // console.log(data)
         chatRooms[data.room].chats.push(data.content);
         chatRooms[data.room].save( err => {
             if(!err){
