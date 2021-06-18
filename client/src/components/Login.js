@@ -66,7 +66,7 @@ function Login(props) {
         // console.log('body: ', body)
         Account.login(body)
         .then( (response) =>{
-            // console.log('login response: ', response.data)
+            console.log('login response: ', response.data)
             if(response.data.user){
                 props.setUser(response.data.user)
                 props.setLoggedIn(true);

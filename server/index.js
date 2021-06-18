@@ -40,16 +40,16 @@ const expressPort = process.env.PORT || 3001;
 app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
 app.use(cookieParser())
-app.set('trust proxy', 1)
-app.use(
-    session({
-        secret: process.env.COOKIE_SECRET,
-      cookie: {
-        sameSite: 'none',
-        secure: true
-      }
-    })
-  );
+// app.set('trust proxy', 1)
+// app.use(
+//     session({
+//         secret: process.env.COOKIE_SECRET,
+//       cookie: {
+//         sameSite: 'none',
+//         secure: true
+//       }
+//     })
+//   );
 
 ChatRoom.find({}, (err, foundRooms) => {
     console.log(foundRooms);
@@ -84,6 +84,7 @@ app.route('/login')
                         res.cookie('access-token', accessToken, {
                             maxAge: 60*60*24*30*1000
                         })
+                        console.log("access-token: ", accessToken)
                         // console.log('returned user: ', returnedUser)
                         res.status(200).send({'success': 'logged in', 'user': returnedUser});
                     } else {

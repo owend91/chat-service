@@ -8,10 +8,10 @@ import Account from '../services/Account'
 function Home(props) {
     console.log('home: ', props.user)
     // const [currentRoom, setCurrentRoom] = useState('')
-    useEffect(() => {
-        // console.log('I am home')
-        Account.getRooms();
-    }, [])
+    // useEffect(() => {
+    //     // console.log('I am home')
+    //     Account.getRooms();
+    // }, [])
 
     return (
         <div className='fullHome'>
