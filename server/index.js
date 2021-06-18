@@ -24,11 +24,11 @@ const roomSchema = new mongoose.Schema({
     roomName: String,
     chats: [{}]
   });
-  const ChatRoom = new mongoose.model("ChatRoom", roomSchema);
+const ChatRoom = new mongoose.model("ChatRoom", roomSchema);
 const User = new mongoose.model("User", userSchema);
 
 const app = express();
-const frontEndOrigin= "http://localhost:3000"
+const frontEndOrigin= process.env.FRONT_END_ORIGIN;
 
 const expressPort = process.env.EXPRESS_PORT || 3001;
 // const socketPort = process.env.SOCKET_PORT || 3001;
@@ -38,6 +38,15 @@ const expressPort = process.env.EXPRESS_PORT || 3001;
 app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
 app.use(cookieParser())
+
+ChatRoom.find({}, (err, foundRooms) => {
+    console.log(foundRooms);
+    for(room of foundRooms){
+        // console.log(room)
+        chatRooms[room.roomName] = room
+    }
+})
+// console.log(chatRooms);
 
 
 
@@ -213,8 +222,9 @@ io.on('connection', socket => {
     });
 
     socket.on('send_message',(data) => {
-        // console.log(data)
-        chatRooms[data.room].chats.push(data.content);
+        const msg = data.content;
+        msg['date'] = new Date();
+        chatRooms[data.room].chats.push(msg);
         chatRooms[data.room].save( err => {
             if(!err){
                 socket.to(data.room).emit("populate_chats", chatRooms[data.room].chats);
