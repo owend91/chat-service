@@ -43,6 +43,7 @@ app.use(cookieParser())
 app.set('trust proxy', 1)
 app.use(
     session({
+        secret: process.env.COOKIE_SECRET,
       cookie: {
         sameSite: 'none',
         secure: true
