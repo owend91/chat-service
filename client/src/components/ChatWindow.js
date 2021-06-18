@@ -9,7 +9,7 @@ function ChatWindow(props) {
 
     const [message, setMessage] = useState('')
     const [messageList, setMessageList] = useState([])
-    const messageBottom = useRef(null);
+    let messageBottom = useRef();
 
     useEffect(() => {
         console.log('connecting...')
@@ -22,7 +22,9 @@ function ChatWindow(props) {
     socket.on("populate_chats", data => {
         console.log('room data: ', data);
         setMessageList(data)
-        messageBottom.current.scrollIntoView({ behavior: 'smooth' });
+        if(messageBottom.current){
+            messageBottom.current.scrollIntoView({ behavior: 'auto' });
+        }
         console.log('messages: ', messageList)
 
     })
@@ -39,7 +41,9 @@ function ChatWindow(props) {
         setMessage('')
         await socket.emit('send_message', msg);
         setMessageList([...messageList, msg.content])
-        messageBottom.current.scrollIntoView({ behavior: 'smooth' });
+        if(messageBottom.current){
+            messageBottom.current.scrollIntoView({ behavior: 'auto' });
+        }
     }
 
     function handleUpdateMessage(event) {
