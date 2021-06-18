@@ -41,15 +41,15 @@ app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
 app.use(cookieParser())
 app.set('trust proxy', 1)
-// app.use(
-//     session({
-//         secret: process.env.COOKIE_SECRET,
-//       cookie: {
-//         sameSite: 'none',
-//         secure: true
-//       }
-//     })
-//   );
+app.use(
+    session({
+        secret: process.env.COOKIE_SECRET,
+      cookie: {
+        sameSite: 'none',
+        secure: true
+      }
+    })
+  );
 
 ChatRoom.find({}, (err, foundRooms) => {
     console.log(foundRooms);
