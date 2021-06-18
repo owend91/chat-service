@@ -35,9 +35,11 @@ const expressPort = process.env.PORT || 3001;
 
 
 
+
 app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
 app.use(cookieParser())
+app.set('trust proxy', 1)
 
 ChatRoom.find({}, (err, foundRooms) => {
     console.log(foundRooms);
