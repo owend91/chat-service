@@ -40,6 +40,14 @@ app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
 app.use(cookieParser())
 app.set('trust proxy', 1)
+app.use(
+    session({
+      cookie: {
+        sameSite: 'none',
+        secure: true
+      }
+    })
+  );
 
 ChatRoom.find({}, (err, foundRooms) => {
     console.log(foundRooms);
