@@ -1,0 +1,50 @@
+.addChatRoom {
+    background-color: #dcdfe4;
+    height: 15rem;
+    width: 40rem;
+    border-radius: 1rem;
+    border: 5px solid #aca69f;
+    box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addChatRoom .inputs input{
+    display: flex;
+    border: none;
+    flex-direction: column;
+    border-radius: 10px;
+    height: 3rem;
+    width: 20rem;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+.addChatRoom .inputs input:focus{
+    outline: none;
+}
+
+.addChatRoom .inputs button{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: #666b3a;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.addChatRoom .inputs button:hover{
+    background-color: #3e4123;
+    color: #adab76;
+}
+
+.successMessage {
+    color: green;
+}
+
+.failMessage {
+    color: red;
+}

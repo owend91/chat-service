@@ -1,0 +1,28 @@
+.fullHome {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    /* background-color: violet; */
+}
+
+.chatRoomList {
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #dcdfe4;
+    overflow-y: scroll;
+
+}
+
+.chatWindow {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 85%;
+    align-items: center;
+    justify-content: center;
+    /* background-color: yellow; */
+}

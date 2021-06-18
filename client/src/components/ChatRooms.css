@@ -1,0 +1,30 @@
+.roomColumn {
+    margin: 0;
+    padding: 0;
+    padding-top: 5em ;
+    display: flex;
+    flex-direction: column;
+    /* height: 100vh;
+    width: 100vw; */
+    background-color: #dcdfe4;
+    overflow-y: scroll;
+}
+
+.roomColumn button {
+    border: none;
+    background-color: transparent;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    color: #666b3a;
+    cursor: pointer;
+}
+
+.roomColumn button:hover {
+    opacity: 50%;
+}
+
+.roomColumn hr {
+    border: 1px solid #dbd4cb;
+    opacity: 50%;
+    width: 75%;
+}

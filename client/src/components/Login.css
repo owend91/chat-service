@@ -1,0 +1,83 @@
+.loginWindow {
+    width: 500px;
+    height: 500px;
+    background-color: #dcdfe4;
+    border-radius: 15px;
+    display: flex;
+    color: #aca69f;
+    flex-direction: column;
+    border: 5px solid #aca69f;
+}
+
+.loginWindow .header {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    /* background-color: teal; */
+    align-items: center;
+    margin: 0;
+    padding-top: 3.8rem;
+    font-size: 4rem;
+    justify-content: center;
+}
+
+.loginWindow .body {
+    display: flex;
+    height: 70%;
+    width: 100%;
+    /* background-color: red; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginWindow .inputs input{
+    display: flex;
+    border: none;
+    flex-direction: column;
+    border-radius: 10px;
+    height: 3rem;
+    width: 20rem;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+.loginWindow .inputs input:focus{
+    outline: none;
+}
+
+.loginWindow .inputs button{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: #666b3a;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.loginWindow .inputs button:hover{
+    background-color: #3e4123;
+    color: #adab76;
+}
+
+.loginWindow .footer {
+    width: 100%;
+    height: 10%;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+}
+
+.loginWindow .footer button {
+    border: none;
+    font-size: 1rem;
+    background-color: transparent;
+    color: #aca69f;
+    cursor: pointer;
+}
+
+.errorMessage {
+    color: red;
+}
