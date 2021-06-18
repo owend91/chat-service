@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const socket = require('socket.io')
 const bcrypt = require('bcrypt')
 const cookieParser = require("cookie-parser")
+const session = require('express-session')
 const chatRooms={}
 const {createToken, validateToken} = require('./JWT')
 
