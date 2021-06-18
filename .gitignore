@@ -120,3 +120,6 @@ dist
 
 #MongoDB dump folder
 dump
+
+*.DS_STORE
+*frontend/build
