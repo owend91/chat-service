@@ -1,9 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react'
 import './ChatWindow.css'
 import io from 'socket.io-client'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let socket;
-const CONNECTION_PORT='http://localhost:3001/'
+const CONNECTION_PORT=process.env.REACT_APP_API_BASE
 
 function ChatWindow(props) {
 
