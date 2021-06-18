@@ -12,7 +12,7 @@ function ChatWindow(props) {
     let messageBottom = useRef();
 
     useEffect(() => {
-        console.log('connecting...')
+        // console.log('connecting...')
         socket = io(CONNECTION_PORT)
         socket.emit('join_room', props.currentRoom);
 
@@ -20,12 +20,12 @@ function ChatWindow(props) {
     
     useEffect( () => {
     socket.on("populate_chats", data => {
-        console.log('room data: ', data);
+        // console.log('room data: ', data);
         setMessageList(data)
         if(messageBottom.current){
             messageBottom.current.scrollIntoView({ behavior: 'auto' });
         }
-        console.log('messages: ', messageList)
+        // console.log('messages: ', messageList)
 
     })
     }, [])
@@ -59,7 +59,7 @@ function ChatWindow(props) {
                 <div className='messages'>
                     {
                         messageList.map((val, key) => {
-                            console.log('val: ', val)
+                            {/* console.log('val: ', val) */}
                             return (
                                 <div className='messageContainer' id={val.author === props.user.username ? "You" : "Other"}>
                                     <h3>{val.author} </h3>

@@ -1,3 +1,4 @@
+// import {axiosLogin, axiosOthers} from "../http-common"
 import http from "../http-common"
 
 
@@ -12,6 +13,14 @@ class Account {
 
     joinRoom(data){
         return http.post(`/joinroom`, data)
+    }
+
+    getRooms(){
+        return http.get(`/getrooms`)
+    }
+
+    getUser(){
+        return http.get(`/getuser`)
     }
 }
 

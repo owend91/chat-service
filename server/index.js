@@ -4,7 +4,9 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const socket = require('socket.io')
 const bcrypt = require('bcrypt')
+const cookieParser = require("cookie-parser")
 const chatRooms={}
+const {createToken, validateToken} = require('./JWT')
 
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -33,8 +35,9 @@ const expressPort = process.env.EXPRESS_PORT || 3001;
 
 
 
-app.use(cors())
+app.use(cors({credentials: true, origin: frontEndOrigin}))
 app.use(express.json())
+app.use(cookieParser())
 
 
 
@@ -52,6 +55,14 @@ app.route('/login')
                             username: foundUser.username,
                             chatRooms: foundUser.chatRooms
                         }
+                        const accessToken = createToken({
+                            username: foundUser.username,
+                            id: foundUser._id
+                        });
+                        console.log('login token: ', accessToken)
+                        res.cookie('access-token', accessToken, {
+                            maxAge: 60*60*24*30*1000
+                        })
                         console.log('returned user: ', returnedUser)
                         res.status(200).send({'success': 'logged in', 'user': returnedUser});
                     } else {
@@ -65,7 +76,7 @@ app.route('/login')
     })  
 });
 
-app.route('/joinroom')
+app.route('/joinroom', validateToken)
 .post((req,res) => {
     const username = req.body.username;
     const room = req.body.room;
@@ -81,6 +92,46 @@ app.route('/joinroom')
             })
         }
     })  
+});
+
+// app.get('/getrooms', validateToken, (req,res) => {
+//     console.log('i am in get rooms')
+//     const username = req.username;
+//     console.log('getrooms: ', username)
+//     // const room = req.body.room;
+//     // User.updateOne({username: username}, { $push: { chatRooms: room } }, (err) => {
+//     //     // console.log(updatedUser)
+//     //     if(!err){
+//     //         User.findOne({username: username}, (err, updatedUser) => {
+//     //             const returnedUser = {
+//     //                 username: updatedUser.username,
+//     //                 chatRooms: updatedUser.chatRooms
+//     //             }
+//     //             res.status(200).send({'success': 'updated', 'user': updatedUser});
+//     //         })
+//     //     }
+//     // })  
+// });
+
+app.get('/getuser', validateToken, (req,res) => {
+    console.log('i am in get rooms')
+    if(req.authenticated){
+        const username = req.username;
+        console.log('getrooms: ', username)
+    
+        User.findOne({username: username}, (err, foundUser) => {
+            if(!err){
+                const returnedUser = {
+                    username: foundUser.username,
+                    chatRooms: foundUser.chatRooms
+                }
+                res.status(200).send({'success': 'updated', 'user': returnedUser, 'loggedIn': true});
+            }
+        }) 
+    } else {
+        res.status(200).send({'success': 'not logged in', 'loggedIn': false});
+    }
+    
 });
 
 app.route('/register')

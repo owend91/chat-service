@@ -2,14 +2,35 @@ import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import Home from './components/Home'
 import Login from './components/Login'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import Account from './services/Account'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [user, setUser] = useState({})
   const [currentRoom, setCurrentRoom] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  console.log('app user: ', user)
+  // console.log('app user: ', user)
+
+  useEffect(() => {
+    // console.log('App use effect');
+    Account.getUser()
+    .then(response => {
+      // console.log('User Response: ', response)
+      
+      if(response.data.user){
+        const returnedUser = {
+          username: response.data.user.username,
+          chatRooms: response.data.user.chatRooms
+        }
+        setUser(returnedUser)
+      }
+      setLoggedIn(response.data.loggedIn)
+      setIsLoaded(true);
+    });
+
+  }, [])
 
   function homeComponent() {
     return <Home 
@@ -17,6 +38,7 @@ function App() {
       setUser={setUser}
       currentRoom={currentRoom}
       setCurrentRoom={setCurrentRoom}
+      setLoggedIn={setLoggedIn}
     />
   }
   function loginComponent() {
@@ -27,8 +49,8 @@ function App() {
   }
   return (
     <div className="App">
-
-      <Router>
+      {isLoaded ? (
+        <Router>
         <Switch>
           <Route 
             path='/' 
@@ -42,6 +64,9 @@ function App() {
           /> */}
           </Switch>
         </Router>
+
+      ) : null}
+      
     </div>
   );
 }

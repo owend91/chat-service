@@ -40,7 +40,7 @@ function Login(props) {
             }
             Account.register(body)
                 .then( (response) =>{
-                    console.log(response)
+                    // console.log(response)
                     if(response.status === 200){
                         setformError(true);
                         setErrorMsg('Username already exists')
@@ -63,10 +63,10 @@ function Login(props) {
             username: username,
             password: password
         }
-        console.log('body: ', body)
+        // console.log('body: ', body)
         Account.login(body)
         .then( (response) =>{
-            console.log('login response: ', response.data)
+            // console.log('login response: ', response.data)
             if(response.data.user){
                 props.setUser(response.data.user)
                 props.setLoggedIn(true);
